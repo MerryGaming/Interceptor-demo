@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,13 +36,6 @@ public class LoggerController {
   public UserResponse login(@RequestBody @Valid LoginRequest request) {
     log.info("(login)username : {}", request.getUsername());
     return service.login(request);
-  }
-
-  @GetMapping("/logout")
-  @ResponseStatus(HttpStatus.OK)
-  public MessageResponse logout(@RequestHeader(name = "Authorization") String authorizationHeader) {
-    log.info("(logout)header : {}", authorizationHeader);
-    return service.logout(authorizationHeader);
   }
 
   @PostMapping

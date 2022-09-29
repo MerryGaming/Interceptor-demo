@@ -5,10 +5,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-
 import org.aibles.interceptor.dto.response.LoginResponse;
-import org.aibles.interceptor.dto.response.UserResponse;
-import org.aibles.interceptor.entity.User;
 import org.aibles.interceptor.exception.UnauthorizedException;
 import org.aibles.interceptor.service.LoginService;
 import org.aibles.interceptor.util.Base64Encoder;
@@ -20,17 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class LogInterceptor implements HandlerInterceptor {
 
   public final LoginService service;
-  private static final String AUTH_HEADER_PARAMETER_AUTHERIZATION = "LOGIN";
-  private static final String URI_API_LOGIN = "/api/v1/loggers/login";
-  private static final String URI_API_REGISTRY = "/api/v1/loggers";
+  private static final String URI_API_LOGIN = "/api/v1/users/login";
+  private static final String URI_API_REGISTRY = "/api/v1/users";
   private static final String HTTP_METHOD_POST = "POST";
-  private static final String STRING_SEPARATOR = " ";
   public static final String START_OF_HEADER = "Basic ";
   public static final int TOKEN_INDEX = 6;
-  private static final String KEY_REQUEST_HEADER = "Bearer";
-  private static final int EMAIL_INDEX = 0;
-  private User user;
-  private String basicAuthHeader;
+
 
   public LogInterceptor(LoginService service) {
     this.service = service;
@@ -39,6 +31,10 @@ public class LogInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
+    log.info(
+        "(preHandle)header : {}, path : {}",
+        request.getHeader(AUTHORIZATION),
+        request.getServletPath());
 
     if (HTTP_METHOD_POST.equalsIgnoreCase(request.getMethod()) && request.getRequestURI()
         .equals(URI_API_LOGIN)) {

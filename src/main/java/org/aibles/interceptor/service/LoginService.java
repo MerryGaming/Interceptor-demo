@@ -24,14 +24,6 @@ public interface LoginService {
   UserResponse login(LoginRequest request);
 
   /**
-   * logout a user
-   * @param authorizationHeader - header info from client
-   * @return user sign out
-   */
-  MessageResponse logout(String authorizationHeader);
-
-
-  /**
    * get a user by username
    * @param username - username of user
    * @return response to authenticate user
